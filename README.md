@@ -8,12 +8,6 @@ Primeiro, você precisa ter o <kbd>[NodeJS](https://nodejs.org/en/download/)</kb
 
 Você pode optar por utilizar o **yarn** ou **npm**. Meus exemplos utilizarão o **yarn**.
 
-Você precisa renomear o arquivo .env-example para .env e inserir as informações que condizem com o seu host:
-
-```sh
-$ mv .env.example .env
-```
-
 Instale as dependências contidas nos arquivos `package.json` que se encontram na raíz do repositório. Para instalar as dependências, basta abrir o terminal no diretório e digitar o comando:
 
 Exemplo:
@@ -23,6 +17,11 @@ $ git clone https://github.com/RafaelCopes/teste-estagio-backend-nave
 	
 # Instalando as dependências:
 $ cd ./teste-estagio-backend-nave
+
+# Renomeie o arquivo .env-example para .env e insira as informações que condizem com o seu host:
+$ mv .env.example .env
+
+# Atualizar as dependèncias
 $ yarn
 ```
 
