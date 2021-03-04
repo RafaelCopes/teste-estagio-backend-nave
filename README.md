@@ -4,7 +4,7 @@ https://codesandbox.io/s/teste-estagio-rafael-copes-vkj9m?file=/index.html
 
 ## Como rodar
 
-Primeiro, você precisa ter o <kbd>[NodeJS](https://nodejs.org/en/download/)</kbd> instalado na sua máquina. 
+Primeiro, você precisa ter o <kbd>[NodeJS](https://nodejs.org/en/download/)</kbd> instalado na sua máquina.
 
 Você pode optar por utilizar o **yarn** ou **npm**. Meus exemplos utilizarão o **yarn**.
 
@@ -14,7 +14,7 @@ Exemplo:
 ```sh
 # Clonando o repositório:
 $ git clone https://github.com/RafaelCopes/teste-estagio-backend-nave
-	
+
 # Instalando as dependências:
 $ cd ./teste-estagio-backend-nave
 

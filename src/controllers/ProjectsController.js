@@ -1,101 +1,99 @@
 const knex = require('../database');
 
 class ProjectsController {
-    async index(req, res) {
-        const navers = await knex('projects')
-            .select([
-                'projects.id', 
-                'projects.name', 
-            ]);
+  async index(req, res) {
+    const navers = await knex('projects').select([
+      'projects.id',
+      'projects.name',
+    ]);
 
-        return res.json(navers);
+    return res.json(navers);
+  }
+
+  async show(req, res) {
+    const { id } = req.params;
+
+    const [project] = await knex('projects')
+      .where('id', id)
+      .select(['projects.id', 'projects.name']);
+
+    if (!project) {
+      return res.status(400).json({ message: 'Project not found' });
     }
 
-    async show(req, res) {
-        const { id } = req.params;
- 
-        const [project] = await knex('projects')
-            .where('id', id)
-            .select([
-                'projects.id', 
-                'projects.name', 
-            ]);
+    const navers = await knex('navers')
+      .join(
+        'naver_project_relation',
+        'navers.id',
+        '=',
+        'naver_project_relation.naver_id',
+      )
+      .where('naver_project_relation.project_id', id)
+      .select([
+        'navers.id',
+        'navers.name',
+        'navers.birthdate',
+        'navers.admission_date',
+        'navers.job_role',
+      ]);
 
-        if (!project) {
-            return res.status(400).json({ message: 'Project not found' });
-        }
+    const parseProject = {
+      ...project,
+      navers,
+    };
 
-        const navers = await knex('navers')
-            .join('naver_project_relation', 'navers.id', '=', 'naver_project_relation.naver_id')
-            .where('naver_project_relation.project_id', id)
-            .select([
-                'navers.id', 
-                'navers.name', 
-                'navers.birthdate', 
-                'navers.admission_date', 
-                'navers.job_role'
-            ]);
+    return res.json(parseProject);
+  }
 
-        const parseProject = {
-            ...project,
-            navers
-        }
+  async store(req, res) {
+    const { name, navers } = req.body;
 
-        return res.json(parseProject);        
+    const checkIfProjectAlreadyExists = await knex('projects')
+      .first()
+      .where('name', name);
+
+    if (checkIfProjectAlreadyExists) {
+      return res.status(400).json({
+        message: 'Project with this name is already registered.',
+      });
     }
 
-    async store(req, res, next) {
-        const { name, navers } = req.body;
+    try {
+      const trx = await knex.transaction();
 
-        const checkIfProjectAlreadyExists = await knex('projects')
-            .first()
-            .where('name', name);
+      const [project] = await trx('projects')
+        .insert({
+          name,
+        })
+        .returning('*');
 
-        if (checkIfProjectAlreadyExists) {
-            return res
-                .status(400)
-                .json({ 
-                    message: 'Project with this name is already registered.' 
-                });
-        }
+      const project_id = project.id;
 
-        try {
-            const trx = await knex.transaction();
+      if (!project) {
+        return res.status(400).json({
+          message: 'Unable to register project.',
+        });
+      }
 
-            const [ project ] = await trx('projects').insert({
-                name,
-            }).returning('*');
-    
-            const project_id = project.id;
-    
-            if (!project) {
-                return res
-                    .status(400)
-                    .json({ 
-                        message: 'Unable to register project.' 
-                    });
-            }
-    
-            const projectNavers = navers.map(naver_id => {
-                return {
-                    naver_id,
-                    project_id,
-                }
-            });
-    
-            await trx('naver_project_relation').insert(projectNavers);
+      const projectNavers = navers.map(naver_id => {
+        return {
+          naver_id,
+          project_id,
+        };
+      });
 
-            await trx.commit();
+      await trx('naver_project_relation').insert(projectNavers);
 
-            return res.status(201).json(project);
-        } catch (err) {
-            return res
-                .status(400)
-                .json({ 
-                    message: 'One of the included navers still does not exist. Please create it in the apropriate route with an empty projects array and then comeback with the right id.' 
-                });
-        }
+      await trx.commit();
+
+      return res.status(201).json(project);
+    } catch (err) {
+      return res.status(400).json({
+        message:
+          'One of the included navers still does not exist. Please create it in the apropriate route with an empty projects array and then comeback with the right id.',
+      });
     }
+  }
 }
 
 module.exports = ProjectsController;
