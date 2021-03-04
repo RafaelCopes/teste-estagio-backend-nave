@@ -4,9 +4,9 @@ module.exports = {
   development: {
     client: 'postgres',
     connection: {
-      database: "teste_estagio_nave",
-      user: "postgres",
-      password: "nave"
+      database: process.env.DATABASE_NAME,
+      user: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD
     },
     migrations: {
       tableName: 'knex_migrations',

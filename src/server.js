@@ -1,3 +1,4 @@
+require('dotenv/config');
 const express = require('express');
 const routes = require('./routes');
 
@@ -15,5 +16,5 @@ app.use((req, res, next) => {
     next(error);
 });
 
-app.listen(3333, 
-    () => console.log('The server is running on port 3333...'));
+app.listen(process.env.SERVER_PORT, 
+    () => console.log(`The server is running on port ${process.env.SERVER_PORT}...`));
