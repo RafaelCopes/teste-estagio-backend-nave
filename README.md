@@ -8,6 +8,12 @@ Primeiro, você precisa ter o <kbd>[NodeJS](https://nodejs.org/en/download/)</kb
 
 Você pode optar por utilizar o **yarn** ou **npm**. Meus exemplos utilizarão o **yarn**.
 
+Você precisa renomear o arquivo .env-example para .env e inserir as informações que condizem com o seu host:
+
+```sh
+$ mv .env.example .env
+```
+
 Instale as dependências contidas nos arquivos `package.json` que se encontram na raíz do repositório. Para instalar as dependências, basta abrir o terminal no diretório e digitar o comando:
 
 Exemplo:
@@ -20,10 +26,10 @@ $ cd ./teste-estagio-backend-nave
 $ yarn
 ```
 
-## Utilizando o server
+## Rodando o server
 
 Crie um banco de dados PostgreSQL localmente.
-No arquivo knexfile.js, adicione as informações de seu banco de dados.
+No arquivo .env, adicione nas variáveis as informações de seu banco de dados.
 
 Agora rode:
 ```sh
