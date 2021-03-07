@@ -1,4 +1,4 @@
-## Link para o CodeSandbox dos exercícios de lógica:
+## Link para o CodeSandbox com os exercícios de lógica:
 
 https://codesandbox.io/s/teste-estagio-rafael-copes-vkj9m?file=/index.html
 
