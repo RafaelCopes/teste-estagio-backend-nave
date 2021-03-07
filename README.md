@@ -2,7 +2,7 @@
 
 https://codesandbox.io/s/teste-estagio-rafael-copes-vkj9m?file=/index.html
 
-## Como rodar
+## Como rodar o desafio de back-end:
 
 Primeiro, você precisa ter o <kbd>[NodeJS](https://nodejs.org/en/download/)</kbd> instalado na sua máquina.
 
